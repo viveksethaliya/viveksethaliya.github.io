@@ -17,8 +17,9 @@
             </ul>
         </div>
     </nav>
-
     <section id="hero">
+        <canvas id="starCanvas"></canvas>
+
         <div class="hero-content">
             <h2>Vivek Sethaliya</h2>
             <p>Aspiring DevOps Engineer bridging development and operations to create scalable, secure, and reliable systems</p>
@@ -28,7 +29,7 @@
                 </a>
               
                 <a class="social-link" href="mailto:viveksethaliya@outlook.com" aria-label="Email">
-                  <span class="icon">✉</span>
+                  <span class="icon"></span>
                 </a>
               
                 <a class="social-link" href="https://www.linkedin.com/in/vivek-sethaliya-50169a242/" target="_blank" rel="noopener" aria-label="LinkedIn">
@@ -125,5 +126,93 @@
             </div>
         </div>
     </section>
+    <script>
+        const canvas = document.getElementById("starCanvas");
+        const ctx = canvas.getContext("2d");
+
+        function resizeCanvas() {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = window.innerWidth + "px";
+        canvas.style.height = window.innerHeight + "px";
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform
+        ctx.scale(dpr, dpr); // scale for sharpness
+        }
+
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+    
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    
+        // Handle resize
+        window.addEventListener("resize", () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        });
+    
+        // Shooting star class
+        class ShootingStar {
+                constructor() {
+                    this.reset();
+                }
+
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height; // anywhere on screen
+                    this.radius = Math.random() * 1 + 0.8; // size 1–3 px
+                    this.opacity = Math.random(); // random start opacity
+                    this.twinkleSpeed = 0.02 + Math.random() * 0.001; // twinkle speed
+                    this.direction = Math.random() > 0.5 ? 1 : -1; // fade in or out
+                }
+
+                update() {
+                    this.opacity += this.twinkleSpeed * this.direction;
+
+                    if (this.opacity <= 0) {
+                    this.opacity = 0;
+                    this.direction = 1; // switch to fading in
+                    } else if (this.opacity >= 1) {
+                    this.opacity = 1;
+                    this.direction = -1; // switch to fading out
+                    }
+                }
+
+                draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+
+                // soft glow
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = `rgba(255,255,255,${this.opacity})`;
+
+                ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
+                ctx.fill();
+
+                // reset shadow so it doesn’t affect other drawings
+                ctx.shadowBlur = 0;
+                }
+            }
+
+    
+        const stars = [];
+        for (let i = 0; i < 30; i++) {
+          stars.push(new ShootingStar());
+        }
+    
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+          stars.forEach(star => {
+            star.update();
+            star.draw();
+          });
+    
+          requestAnimationFrame(animate);
+        }
+    
+        animate();
+      </script>
 </body>
 </html>
