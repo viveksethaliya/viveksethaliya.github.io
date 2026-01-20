@@ -317,6 +317,12 @@ footer {
         padding: 120px 0 80px;
     }
     
+    #hero canvas {
+        width: 100vw;
+        height: 100%;
+        max-width: 100%;
+    }
+    
     .hero-content h2 {
         font-size: 2rem;
     }

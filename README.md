@@ -28,16 +28,10 @@ This project was created to learn and practice the basics of DNS by setting up a
 
 ## Task #2 - Custom Domain for AWS Instance
 
-Instead of using DigitalOcean, I hosted my static site on **AWS EC2**.
+Instead of using DigitalOcean, I hosted my static site on **AWS S3**.
 
 ### Steps I Took:
-1. Launched an **AWS EC2 instance** running Ubuntu.
-2. Installed and configured **Nginx** to serve my static site:
-   ```bash
-   sudo apt update
-   sudo apt install nginx -y
-   sudo systemctl enable nginx
-   sudo systemctl start nginx
-   ```
+1. Launched an **AWS S3 bucket**
+   configured the S3 bucket and routed it with aws route 53 tool for my godaddy doomain
  --------------------------------
  Project from: https://roadmap.sh/projects/basic-dns
